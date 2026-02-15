@@ -92,14 +92,12 @@ describe("Formatters", () => {
 				duration: "1h 0m 0s",
 				exercises: [
 					{
-						index: undefined,
 						name: "Bench Press",
 						exerciseTemplateId: undefined,
 						notes: "Felt strong today",
 						supersetsId: undefined,
 						sets: [
 							{
-								index: undefined,
 								type: "warmup",
 								weight: 60,
 								reps: 10,
@@ -109,7 +107,6 @@ describe("Formatters", () => {
 								customMetric: null,
 							},
 							{
-								index: undefined,
 								type: "normal",
 								weight: 80,
 								reps: 8,
@@ -200,14 +197,12 @@ describe("Formatters", () => {
 				exercises: [
 					{
 						name: "Squat",
-						index: 1,
 						exerciseTemplateId: templateId,
 						notes: "Focus on form",
 						supersetId: 1,
 						restSeconds: undefined,
 						sets: [
 							{
-								index: 1,
 								type: "normal",
 								weight: 100,
 								reps: 5,
@@ -216,7 +211,6 @@ describe("Formatters", () => {
 								customMetric: null,
 							},
 							{
-								index: 2,
 								type: "normal",
 								weight: 110,
 								reps: 3,
@@ -266,7 +260,6 @@ describe("Formatters", () => {
 			const result = formatRoutine(routine as Routine);
 			const set = result.exercises?.[0]?.sets?.[0];
 			expect(set).toMatchObject({
-				index: 1,
 				type: "normal",
 				weight: 80,
 				reps: 8,

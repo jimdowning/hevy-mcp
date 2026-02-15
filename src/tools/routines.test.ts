@@ -159,7 +159,14 @@ describe("registerRoutineTools", () => {
 		});
 
 		const parsed = JSON.parse(response.content[0].text) as unknown;
-		expect(parsed).toEqual(formatRoutine(routine));
+		// Nulls are stripped by createJsonResponse, so compare accordingly
+		expect(parsed).toEqual({
+			id: "created-routine",
+			title: "Pull Day",
+			createdAt: "2025-03-26T19:00:00Z",
+			updatedAt: "2025-03-26T19:00:00Z",
+			exercises: [],
+		});
 	});
 
 	it("create-routine maps repRange to rep_range in the request body", async () => {

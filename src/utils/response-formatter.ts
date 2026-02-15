@@ -26,13 +26,21 @@ export interface JsonFormatOptions {
  * @param options - Formatting options
  * @returns A formatted MCP tool response with the data as JSON
  */
+/**
+ * JSON replacer that strips null and undefined values to reduce payload size.
+ */
+function stripNulls(_key: string, value: unknown): unknown {
+	if (value === null || value === undefined) return undefined;
+	return value;
+}
+
 export function createJsonResponse(
 	data: unknown,
 	options: JsonFormatOptions = { pretty: true, indent: 2 },
 ): McpToolResponse {
 	const jsonString = options.pretty
-		? JSON.stringify(data, null, options.indent)
-		: JSON.stringify(data);
+		? JSON.stringify(data, stripNulls, options.indent)
+		: JSON.stringify(data, stripNulls);
 
 	return {
 		content: [

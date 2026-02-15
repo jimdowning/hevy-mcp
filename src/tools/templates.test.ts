@@ -144,6 +144,7 @@ describe("registerTemplateTools", () => {
 		});
 
 		const parsed = JSON.parse(response.content[0].text) as unknown[];
+		// Nulls are stripped by createJsonResponse
 		expect(parsed).toEqual([
 			{
 				workoutId: "w1",
@@ -153,10 +154,7 @@ describe("registerTemplateTools", () => {
 				exerciseTemplateId: "t1",
 				weight: 80,
 				reps: 8,
-				distance: null,
-				duration: null,
 				rpe: 8,
-				customMetric: null,
 				setType: "normal",
 			},
 		]);

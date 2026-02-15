@@ -11,6 +11,7 @@ describe("Response Formatter", () => {
 			const testData = { name: "Test", value: 123, nested: { key: "value" } };
 			const response = createJsonResponse(testData);
 
+			// No nulls in testData, so output matches standard stringify
 			expect(response).toEqual({
 				content: [
 					{
@@ -66,10 +67,27 @@ describe("Response Formatter", () => {
 			});
 		});
 
-		it("should handle null and undefined values", () => {
-			expect(createJsonResponse(null).content[0].text).toBe("null");
-			// JSON.stringify(undefined) returns undefined, not a string
-			// So we need to check that the text is undefined
+		it("should strip null and undefined values from output", () => {
+			const testData = {
+				name: "Test",
+				nullField: null,
+				undefinedField: undefined,
+				nested: { value: 1, empty: null },
+			};
+			const response = createJsonResponse(testData);
+			const parsed = JSON.parse(response.content[0].text);
+
+			expect(parsed).toEqual({
+				name: "Test",
+				nested: { value: 1 },
+			});
+			expect("nullField" in parsed).toBe(false);
+			expect("empty" in parsed.nested).toBe(false);
+		});
+
+		it("should handle top-level null and undefined values", () => {
+			// Top-level null becomes undefined via replacer, then stringify returns undefined
+			expect(createJsonResponse(null).content[0].text).toBe(undefined);
 			expect(createJsonResponse(undefined).content[0].text).toBe(undefined);
 		});
 	});

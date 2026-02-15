@@ -10,7 +10,6 @@ import type {
  * Formatted workout set interface
  */
 export interface FormattedWorkoutSet {
-	index: number | undefined;
 	type: string | undefined;
 	weight: number | undefined | null;
 	reps: number | undefined | null;
@@ -24,7 +23,6 @@ export interface FormattedWorkoutSet {
  * Formatted workout exercise interface
  */
 export interface FormattedWorkoutExercise {
-	index: number | undefined;
 	name: string | undefined;
 	exerciseTemplateId: string | undefined;
 	notes: string | undefined | null;
@@ -51,7 +49,6 @@ export interface FormattedWorkout {
  * Formatted routine set interface
  */
 export interface FormattedRoutineSet {
-	index: number | undefined;
 	type: string | undefined;
 	weight: number | undefined | null;
 	reps: number | undefined | null;
@@ -67,7 +64,6 @@ export interface FormattedRoutineSet {
  */
 export interface FormattedRoutineExercise {
 	name: string | undefined;
-	index: number | undefined;
 	exerciseTemplateId: string | undefined;
 	notes: string | undefined | null;
 	supersetId: number | undefined | null;
@@ -142,13 +138,11 @@ export function formatWorkout(workout: Workout): FormattedWorkout {
 		duration: calculateDuration(workout.start_time, workout.end_time),
 		exercises: workout.exercises?.map((exercise) => {
 			return {
-				index: exercise.index,
 				name: exercise.title,
 				exerciseTemplateId: exercise.exercise_template_id,
 				notes: exercise.notes,
 				supersetsId: exercise.supersets_id,
 				sets: exercise.sets?.map((set) => ({
-					index: set.index,
 					type: set.type,
 					weight: set.weight_kg,
 					reps: set.reps,
@@ -178,13 +172,11 @@ export function formatRoutine(routine: Routine): FormattedRoutine {
 		exercises: routine.exercises?.map((exercise) => {
 			return {
 				name: exercise.title,
-				index: exercise.index,
 				exerciseTemplateId: exercise.exercise_template_id,
 				notes: exercise.notes,
 				supersetId: exercise.supersets_id,
 				restSeconds: exercise.rest_seconds,
 				sets: exercise.sets?.map((set) => ({
-					index: set.index,
 					type: set.type,
 					weight: set.weight_kg,
 					reps: set.reps,

@@ -58,6 +58,7 @@ export function createClient(
 		headers: {
 			"api-key": apiKey,
 		},
+		proxy: false,
 	});
 
 	// Create headers object with API key

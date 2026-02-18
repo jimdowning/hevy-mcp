@@ -3,6 +3,7 @@ import type {
 	ResponseConfig,
 } from "@kubb/plugin-client/clients/axios";
 import axios from "axios";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import * as api from "../generated/client/api";
 import type {
 	GetV1ExerciseHistoryExercisetemplateidQueryParams,
@@ -52,13 +53,18 @@ export function createClient(
 	apiKey: string,
 	baseUrl = "https://api.hevyapp.com",
 ) {
-	// Create an axios instance with the API key
+	// Use CONNECT tunnel through HTTP proxy for HTTPS requests
+	// (axios default proxy handling sends plain GET to proxy, which fails with Squid)
+	const httpsProxy = process.env.https_proxy || process.env.HTTPS_PROXY;
+	const httpsAgent = httpsProxy ? new HttpsProxyAgent(httpsProxy) : undefined;
+
 	const axiosInstance = axios.create({
 		baseURL: baseUrl,
 		headers: {
 			"api-key": apiKey,
 		},
 		proxy: false,
+		...(httpsAgent && { httpsAgent }),
 	});
 
 	// Create headers object with API key
